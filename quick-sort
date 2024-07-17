@@ -1,0 +1,20 @@
+def quickSort(arr):
+    pivot = arr[0]  # The first element is the pivot
+    left = [x for x in arr if x < pivot]  # Elements less than the pivot
+    equal = [x for x in arr if x == pivot]  # Elements equal to the pivot (only the pivot in this case)
+    right = [x for x in arr if x > pivot]  # Elements greater than the pivot
+
+    # Combine the left, equal, and right lists
+    return left + equal + right
+
+# Example usage:
+if __name__ == "__main__":
+    # Read input
+    n = int(input())
+    arr = list(map(int, input().split()))
+
+    # Get the partitioned array
+    result = quickSort(arr)
+
+    # Print the result
+    print(" ".join(map(str, result)))
