@@ -1,0 +1,18 @@
+def stringConstruction(s):
+    # The minimum cost is the number of unique characters in the string
+    return len(set(s))
+
+if __name__ == "__main__":
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    
+    n = int(data[0])
+    results = []
+    for i in range(1, n + 1):
+        s = data[i]
+        results.append(stringConstruction(s))
+    
+    # Print results
+    for result in results:
+        print(result)
