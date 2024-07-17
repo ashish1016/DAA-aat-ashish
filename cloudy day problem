@@ -1,0 +1,53 @@
+def maximumPeople(p, x, m, c, r):
+    from collections import defaultdict
+    
+    # Step 1: Determine the initial coverage of each town by the clouds
+    cloud_coverage = defaultdict(list)
+    town_coverage = defaultdict(int)
+    
+    for i in range(m):
+        cloud_start = c[i] - r[i]
+        cloud_end = c[i] + r[i]
+        for j in range(len(x)):
+            if cloud_start <= x[j] <= cloud_end:
+                cloud_coverage[i].append(j)
+                town_coverage[j] += 1
+
+    # Step 2: Calculate the initial population of sunny towns
+    initial_sunny_population = 0
+    for j in range(len(x)):
+        if town_coverage[j] == 0:
+            initial_sunny_population += p[j]
+
+    # Step 3: Calculate the impact of removing each cloud
+    max_population_after_removal = initial_sunny_population
+    population_impact = defaultdict(int)
+    
+    for i in range(m):
+        impact_population = 0
+        for town in cloud_coverage[i]:
+            if town_coverage[town] == 1:
+                impact_population += p[town]
+        population_impact[i] = impact_population
+    
+    # Step 4: Determine the maximum population in sunny towns after removing one cloud
+    for i in range(m):
+        max_population_after_removal = max(max_population_after_removal, initial_sunny_population + population_impact[i])
+    
+    return max_population_after_removal
+
+# Example usage:
+if __name__ == "__main__":
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    
+    n = int(data[0])
+    p = list(map(int, data[1:n+1]))
+    x = list(map(int, data[n+1:2*n+1]))
+    m = int(data[2*n+1])
+    c = list(map(int, data[2*n+2:2*n+2+m]))
+    r = list(map(int, data[2*n+2+m:2*n+2+2*m]))
+    
+    result = maximumPeople(p, x, m, c, r)
+    print(result)
